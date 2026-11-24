@@ -1,0 +1,13 @@
+#include <avr/io.h>
+
+int main(void) {
+    DDRC |= (1 << PC3);   // Set PC3 (pin A3) as output
+    DDRB |= (1 << PB3);   // Set PB3 (pin D11) as output
+
+    PORTC |= (1 << PC3);  // Set PC3 (pin A3) HIGH
+    PORTB |= (1 << PB3);  // Set PB3 (pin D11) HIGH
+
+    while (1) {
+        // Pins remain HIGH continuously
+    }
+}
