@@ -1,0 +1,38 @@
+#include "main.h"
+#include <stdio.h>
+
+int main(void)
+{
+    HAL_Init();
+
+    SystemClock_Config();
+    MX_GPIO_Init();
+    MX_I2C1_Init();
+
+    int temperature;
+    int humidity;
+    int soil_moisture;
+
+    while(1)
+    {
+        // Read sensor values
+        temperature = 30;
+        humidity = 60;
+        soil_moisture = 25;
+
+        // Check soil moisture
+        if(soil_moisture < 40)
+        {
+            // Pump ON
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+        }
+        else
+        {
+            // Pump OFF
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+        }
+
+        // Wait for next reading
+        HAL_Delay(1000);
+    }
+}
