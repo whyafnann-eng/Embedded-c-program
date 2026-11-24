@@ -1,0 +1,61 @@
+#include "main.h"
+
+int main(void)
+{
+    HAL_Init();
+    SystemClock_Config();
+    MX_GPIO_Init();
+
+    int alarm = 0;
+    int motor = 0;
+
+    while (1)
+    {
+        // Fire sensor detection on PA0
+        if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_SET)
+        {
+            alarm = 1;
+        }
+
+        // Reset button on PA2
+        if ((HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_2) == GPIO_PIN_SET) &&
+            (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_RESET))
+        {
+            alarm = 0;
+        }
+
+        // Lamp control on PA1
+        if (alarm == 1)
+        {
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+        }
+        else
+        {
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+        }
+
+        // Motor start button on PA3
+        if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_3) == GPIO_PIN_SET)
+        {
+            motor = 1;
+        }
+
+        // Motor stop button on PA4
+        if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4) == GPIO_PIN_SET)
+        {
+            motor = 0;
+        }
+
+        // Two motor control on PA5 and PA6
+        if (motor == 1)
+        {
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5 | GPIO_PIN_6, GPIO_PIN_SET);
+        }
+        else
+        {
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5 | GPIO_PIN_6, GPIO_PIN_RESET);
+        }
+
+        HAL_Delay(100);
+    }
+}
