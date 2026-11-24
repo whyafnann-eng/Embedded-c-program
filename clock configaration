@@ -1,0 +1,30 @@
+#include "main.h"
+#include <stdio.h>
+#include <string.h>
+
+UART_HandleTypeDef huart1;
+
+int main(void)
+{
+    HAL_Init();
+    SystemClock_Config();
+    MX_GPIO_Init();
+    MX_USART1_UART_Init();
+    MX_ADC1_Init();
+
+    char msg[100];
+
+    while(1)
+    {
+        sprintf(msg,
+        "SMART AGRICULTURE SYSTEM\r\n"
+        "Soil Moisture: NORMAL\r\n"
+        "Temperature: 28 C\r\n"
+        "Sunlight: HIGH\r\n\r\n");
+
+        HAL_UART_Transmit(&huart1,
+        (uint8_t*)msg, strlen(msg), 100);
+
+        HAL_Delay(1000);
+    }
+}
