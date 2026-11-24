@@ -1,0 +1,24 @@
+#define F_CPU 16000000UL
+#include <avr/io.h>
+#include <util/delay.h>
+
+int main(void)
+{
+    DDRB |= (1 << PB5);
+    DDRC |= (1 << PC3);
+
+    while (1)
+    {
+        if (PINB & (1 << PB5))
+        {
+            PORTC |= (1 << PC3);
+        }
+        else
+        {
+            PORTC &= ~(1 << PC3);
+        }
+
+        PORTB ^= (1 << PB5);
+        _delay_ms(500);
+    }
+}
